@@ -1,0 +1,59 @@
+---
+//import * as THREE from 'https://unpkg.com/three/build/three.module.js';
+//import * as satellite from 'https://unpkg.com/satellite.js/dist/satellite.min.js'
+---
+
+<style>
+  .hero-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100vh;
+    background-color: #282c34;
+    color: white;
+    position: relative;
+  }
+
+  .globe-container {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    height: 400px;
+    margin: 0 auto;
+  }
+
+  h1 {
+    font-size: 3rem;
+    margin-top: 20px;
+  }
+</style>
+<div class="hero-container">
+    <div id="globe" class="globe-container"></div>
+    <h1>Welcome to Our World</h1>
+  </div>
+<script>
+  import Globe from 'globe.gl';
+  const container = document.getElementById('globe');
+  const SATELLITE_URL = 'https://unpkg.com/globe.gl/example/datasets/space-track-leo-satellites.json';
+
+  if (container) {
+    const globe = Globe()(container);
+    globe
+    .globeImageUrl('//unpkg.com/three-globe/example/img/earth-night.jpg')
+      .backgroundImageUrl('//unpkg.com/three-globe/example/img/night-sky.png')
+      .hexPolygonsData([])
+      .pointOfView({ lat: 0, lng: 0, altitude: 2.5 });
+
+    // Cargar satélites
+    fetch(SATELLITE_URL)
+      .then(res => res.json())
+      .then(satData => {
+        world
+          .satellitesData(satData)
+          .satellitesLabel((d) => d.name)
+          .satellitesAltitude('altitude');
+      });
+  }
+</script>
